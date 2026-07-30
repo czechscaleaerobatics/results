@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+  <meta name="apple-mobile-web-app-capable" content="yes" >
+  <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" >
+      <meta http-equiv="cache-control" content="no-cache,no-store,must-revalidate">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="0">
+
+  
+  <!--<title>NotauScore</title>-->
+
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/css/themes.css">
+
+  <link rel="stylesheet" type="text/css" href="/Bootstrap/css/bootstrap.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/DataTables/DataTables-1.13.8/css/dataTables.bootstrap5.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/DataTables/Buttons-2.4.2/css/buttons.bootstrap5.min.css">
+  <!--<link rel="stylesheet" href="/DataTables/Buttons-2.4.2/css/buttons.dataTables.min.css">-->
+
+  <link rel="stylesheet" type="text/css" href="/DataTables/DataTables-1.13.8/css/jquery.dataTables.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/DataTables/Select-1.7.0/css/select.bootstrap5.min.css">
+  <!--<link rel="stylesheet" href="/DataTables/Select-1.7.0/css/select.dataTables.min.css">-->
+
+  <link rel="stylesheet" type="text/css" href="/DataTables/Editor-PHP-2.2.2/css/editor.bootstrap5.min.css">
+  <!-- <link rel="stylesheet" href="/DataTables/Editor-PHP-2.2.2/css/editor.dataTables.min.css"> NE PAS INCLURE !!!-->
+
+  <link rel="stylesheet" type="text/css" href="/DataTables/DateTime-1.5.1/css/dataTables.dateTime.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/DataTables/RowReorder-1.4.1/css/rowReorder.bootstrap5.min.css">
+  <link rel="stylesheet" type="text/css" href="/DataTables/FixedHeader-3.4.0/css/fixedHeader.bootstrap5.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/css/ffam.css">
+
+
+  <script src="/Bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="/DataTables/DataTables-1.13.8//js/jquery.dataTables.min.js"></script>
+  <script src="/DataTables/DataTables-1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+  <script src="/DataTables/jQueryUI-1.12.1/jquery-ui.js"></script>
+
+  <script src="/js/ffam.js"></script>
+
+  <script src="/DataTables/Select-1.7.0/js/dataTables.select.min.js"></script>
+  <script src="/DataTables/Moment-2.29.4/moment.min.js"></script>
+
+  <script src="/DataTables/Buttons-2.4.2/js/dataTables.buttons.min.js"></script>
+  <script src="/DataTables/Buttons-2.4.2/js/buttons.bootstrap5.min.js"></script>
+  <script src="/DataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
+  <script src="/DataTables/Buttons-2.4.2/js/buttons.print.min.js"></script>
+  <script src="/DataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
+
+  <script src="/DataTables/DateTime-1.5.1/js/dataTables.dateTime.min.js"></script>
+
+  <script src="/DataTables/KeyTable-2.11.0/js/dataTables.keyTable.min.js"></script>
+
+  <script src="/DataTables/Editor-PHP-2.2.2/js/dataTables.editor.min.js"></script>
+  <script src="/DataTables/Editor-PHP-2.2.2/js/editor.bootstrap5.min.js"></script>
+
+  <script src="/DataTables/RowReorder-1.4.1/js/dataTables.rowReorder.min.js"></script>
+  <script src="/DataTables/RowReorder-1.4.1/js/rowReorder.bootstrap5.min.js"></script>
+
+    <!-- Favicon -->
+  <link rel="shortcut icon" href="/img/favicon.ico?v=2" >
+
+  <!-- Apple devices Homescreen icon -->
+  <link rel="apple-touch-icon-precomposed" href="/img/apple-touch-icon-precomposed.png" >
+
+</head>
+<body class="theme-satblue">
+
+<script>
+$(document).ready(function() {
+  // Language dropdown
+  let ddSelect = document.getElementById("lang");
+  var myLang = "EN";
+  var myOption = ddSelect.children;
+  for (let i = 0; i < myOption.length; i++) {
+    if (myOption[i].value == myLang) ddSelect.selectedIndex = i;
+  }
+  // Change style
+  var myFlag;
+  switch (myLang) {
+  case 'FR':
+    myFlag = "FRA";
+    break;
+  case 'EN':
+    myFlag = "GBR";
+    break;
+  case 'ES':
+    myFlag = "ESP";
+    break;
+  case 'DE':
+    myFlag = "GER";
+    break;
+  case 'IT':
+    myFlag = "ITA";
+    break;
+  case 'RU':
+    myFlag = "RUS";
+    break;
+  case 'NL':
+    myFlag = "NED";
+    break;
+  case 'AU':
+    myFlag = "AUS";
+    break;
+  default:
+    myFlag = "GBR";
+  }
+  myFlag = "url(/img/flags-mini/" + myFlag + ".png)";
+  $('#lang').css("background-image", myFlag);
+
+  $('#lang').change(function(e){
+    //get the value of the selected index.
+    value = $(this).val();
+    $.ajax({
+      url: "update-lang.php?lang=" + value,
+      type: 'POST',
+      data: {value: value},
+      success:function(response)
+      {
+        //alert(response);
+        location.reload();
+      }
+    })
+  })
+})
+</script>
+
+<div id="navigation" hidden class="navbar-fixed-top" style="width:100%">
+  <div class="container-fluid" style="font-size: 1rem;">
+    <a href="index.php" id="brand">NotauScore</a>
+        <ul class='main-nav'>
+              <li >
+          <a href="page-home.php" data-toggle="dropdown">
+            <span>Home</span>
+          </a>
+        </li>
+                  <li >
+            <a href="page-competitions.php" data-toggle="dropdown">
+              <span>Competitions</span>
+            </a>
+          </li>
+          <li >
+            <a href="page-exports.php" data-toggle="dropdown">
+              <span>Exports</span>
+            </a>
+          </li>
+
+          <li class='nav-item dropdown'>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Administration            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item" href="page-settings.php">Settings</a>
+              </li>
+              <li>
+                <a class="dropdown-item"
+                  onclick="window.location='page-admin.php';" href="#" data-toggle="dropdown">
+                  <span>Administration</span>
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="page-pilot-db.php">Pilot DB</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="page-programme.php">Flight schedules</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="USG/index.php?return=yes">USG</a></li>
+            </ul>
+          </li>
+
+          <li >
+            <a href="page-kiosk.php" data-toggle="dropdown">
+              <span>Kiosk/Network</span>
+            </a>
+          </li>
+                  </ul>
+
+    <div class="main-nav sm-right"
+      style="float: right;"    >
+      <select name="langmenu" id="lang" style="direction:rtl; background-image: url(/img/flags-mini/FRA.png); background-repeat: no-repeat;  background-color: #cccccc; padding-left: 20px;">
+        <option value="FR">Français</option>
+        <option value="EN">English</option>
+        <option value="ES">Español</option>
+        <option value="DE">Deutsch</option>
+        <option value="IT">Italiano</option>
+        <option value="RU">русский</option>
+        <option value="NL">Dutch</option>
+        <option value="AU">Australian</option>
+      </select>
+    </div>
+
+
+    <div class="main-nav sm-right" style="float:right">
+      <div class="dropdown">
+        <a href="logout.php"  style="color: white" data-toggle="dropdown">admin&nbsp;<img width="27" src="/img/user.png" alt=""></a>      </div>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+<br/><script type="text/javascript" language="javascript" class="init">
+  $(document).ready(function() {
+    $(document).ajaxStart(function() {
+          $('#loading').show();
+        }).ajaxStop(function() {
+          $('#loading').hide();
+        })
+    });
+</script>
+
+
+  <script type="text/javascript" language="javascript" class="init">
+
+  var table_classement;
+  var editor;
+
+  function ComputeClassementPrelim(catid, phaseid) {
+          $("body").css("cursor", "wait");
+          $.ajax({
+            async: false,
+            url: "compute-classement-IMA.php?id=30&phaseid="+eval(phaseid)+"&catid="+eval(catid)
+          });
+          //table_classement.ajax.reload();
+          $("body").css("cursor", "default");
+          alert("Results updated !");
+          location.reload();
+      }
+  </script>
+
+<div class="container-fluid nav-fixed nav-hidden" id="content">
+    <div class="container-fluid">
+        <div class="card card-primary">
+            <div class="card-header text-white bg-primary">
+              <h2 align="center">test - RH </h2>
+                <h4 align='center'> - 2026-07-31</h4>                <h3 align='center'>Classification</h3>
+                                  <a style="display:none" class="btn btn-primary btn-sm" role="button" href="impr_classement_prelim.php?id=30&phaseid=1&catid=" target="_blank"><span class='fa fa-print'></span> Simplified results</a>
+                  <a style="display:none" class="btn btn-primary btn-sm" role="button" href="impr_classement_prelim_pc.php?id=30&phaseid=1&catid=" target="_blank"><span class='fa fa-print'></span> Results with percentage</a>
+                  <a style="display:none" class="btn btn-primary btn-sm" role="button" href="impr_classement_prelim_detail.php?id=30&phaseid=1&catid=" target="_blank"><span class='fa fa-print'></span> Detailed results</a>
+                  <a style="display:none" class="btn btn-warning btn-sm" role="button" href="javascript:ComputeClassementPrelim(,1);"><span class='fa fa-refresh'></span> Recalculate</a>
+                            </div>
+
+            <!-- affichage attente durant recalcul classement cf document.ready-->
+            <div id="loading" style="display:none">
+                <p align="center"><br><br><img src="/img/loading1.gif"><br>Please wait...</p>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="box-content">
+                    <table width="100%" class="table table-nomargin table-bordered">
+                    <thead>
+                      <tr>
+                        <th rowspan=2 style="vertical-align:top">Competitors</th>
+                        <th rowspan=2 style="text-align:center; vertical-align:top">Cat</th>
+                        <th rowspan=2 style="text-align:center; vertical-align:top">Country</th>
+                        <th rowspan=2 style="text-align:center; vertical-align:top">Total</th>
+                        <th rowspan=2 style="text-align:center; vertical-align:top">Position</th>
+
+                        <th colspan=2 style='text-align:center; background-color:#C2F732;'>Flight 1<br>Known<br>Finished</th><th colspan=2 style='text-align:center;'>Flight 2<br>Known<br>In progress</th><th colspan=2 style='text-align:center;'>Flight 3<br>Known<br>In progress</th><th colspan=2 style='text-align:center;'>Flight 4<br>Known<br>In progress</th><th colspan=2 style='text-align:center;'>Flight 5<br>Known<br>In progress</th>                      </tr>
+                      <tr>
+                        <th style='text-align:center'>Net</th><th style='text-align:center'>Norm</th><th style='text-align:center'>Net</th><th style='text-align:center'>Norm</th><th style='text-align:center'>Net</th><th style='text-align:center'>Norm</th><th style='text-align:center'>Net</th><th style='text-align:center'>Norm</th><th style='text-align:center'>Net</th><th style='text-align:center'>Norm</th>                      <tr><td>NYKLíčEK Jan (8)</td><td style='text-align:center'>Senior</td><td style='text-align:center'><img src='/img/flags-mini/CZE.png' height='15'> (CZE)</td><td style='text-align:center'>1000.00</td><td style='text-align:center'>1</td><td style='text-align:center'><a href='8-Jan-NYKLičEK-1.pdf'>2081.33</a></td><td style='text-align:center'><a href='8-Jan-NYKLičEK-1.pdf'>1000.00</a></td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td></tr><tr><td>ŠťáSTEK Petr (9)</td><td style='text-align:center'>Senior</td><td style='text-align:center'><img src='/img/flags-mini/CZE.png' height='15'> (CZE)</td><td style='text-align:center'>984.95</td><td style='text-align:center'>2</td><td style='text-align:center'><a href='9-Petr-SťaSTEK-1.pdf'>2050.00</a></td><td style='text-align:center'><a href='9-Petr-SťaSTEK-1.pdf'>984.95</a></td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td></tr><tr><td>MISTUR Michal  (10)</td><td style='text-align:center'>Senior</td><td style='text-align:center'><img src='/img/flags-mini/POL.png' height='15'> (POL)</td><td style='text-align:center'>912.64</td><td style='text-align:center'>3</td><td style='text-align:center'><a href='10-Michal_-MISTUR-1.pdf'>1899.50</a></td><td style='text-align:center'><a href='10-Michal_-MISTUR-1.pdf'>912.64</a></td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td><td style='text-align:center'>--</td></tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+              </div>
+              <!--
+              * Unknown rounds were scaled to ~500 max points each. (Sum of Unknowns weighted as 20% of the total score.)
+            -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- affichage attente durant recalcul classement cf document.ready-->
+<div id="loading" style="display:none" class="modal">
+  <div class="modal-dialog model-lg">
+    <div class="modal-content">
+      <h4>
+        <p align="center"><br><br><img src="/img/loading1.gif"><br>Please wait...</p><br><br>
+      </h4>
+    </div>
+  </div>
+</div>
+<!-- fin affichage attente -->
+
+
+<!-- popup alert -->
+<div id="alert" style="display:none" class="modal" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+		  <div class="modal-header">
+			  <img id="alert_img" src=""  height="30" width="30">
+        <a id="alert_title" class="modal-title"></a>
+        <h5>
+          <button id="okButton" type="button" class="close" data-bs-dismiss="modal" aria-label="Close" style='z-index: 1000;'>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </h5>
+		  </div>
+		  <div class="modal-body">
+			  <p id="alert_content" align="center"></p>
+		  </div>
+	  </div>
+  </div>
+</div>
+<!-- fin popup alert -->
+
+<div id="footer">
+	<p>
+		<a style="display:none" href="changelog.txt" target="_blank">NotauScore 9.49</a>
+		<span style="display:none" class="font-grey-4">|</span>
+		<a style="display:none" href="file/concours@ffam-notice.pdf" target="_blank">Notice version</a>		<span style="display:none" class="font-grey-4">|</span>
+		<a target="_blank" href="mailto:rpconsultants@free.fr?subject=NotauScore">Roland Poidevin (FRA)</a>
+                <a target="_blank" href="https://www.facebook.com/groups/AustralianPrecisionAerobatics"> / Artur Uzieblo (AUS)</a>
+	</p>
+	<a href="#" class="gototop">
+		<i class="fa fa-arrow-up"></i>
+	</a>
+</div>
+
+</body>
+</html>
